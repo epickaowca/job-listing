@@ -1,13 +1,15 @@
 import React from 'react'
 import './App.css';
-import {useSelector} from 'react-redux'
+import Filters from './components/components/Filters';
+import Header from './components/components/Header';
+import Jobs from './components/components/Jobs';
 
 function App() {
-  const state = useSelector(state=>state.filter)
-  console.log(state)
   return (
    <div>
-     dziala
+     <Header />
+     <Jobs />
+     {/* <Filters /> */}
    </div>
   );
 }
