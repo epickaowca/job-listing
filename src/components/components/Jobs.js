@@ -12,9 +12,10 @@ const Wrapper = styled.div`
 
 export default function Jobs() {
     const state = useSelector(state => state.jobs)
+
     return (
         <Wrapper>
-            {state.jobs.map((elem, index)=><Job key={index} props={elem} />)}
+            {state.jobs.map((elem, index)=><Job key={index} jobs={elem} positions={state.positions} agreements={state.agreements} locations={state.locations} requirements={state.requirements} />)}
         </Wrapper>
     )
 }

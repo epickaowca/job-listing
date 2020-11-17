@@ -79,8 +79,8 @@ ${p=>p.theme.media.desktop1}{
 }
 `
 
-export default function job({props}) {
-    const { img, featured, company, position } = props
+export default function Job({jobs, positions, agreements, locations, requirements}) {
+    const { img, featured, company, relesed, new:isNew, position, agreement, location, requirement } = jobs
     return (
         <Wrapper featured={featured}>
             <section>
@@ -88,26 +88,22 @@ export default function job({props}) {
                 <div>
                     <section>
                         <p>{company}</p>
-                        <Button case1 color1>NEW!</Button>
+                        {isNew && <Button case1 color1>NEW!</Button>}
                         {featured && <Button case1 color2>FEATURED</Button>}
                     </section>
-                    <h2>{position}</h2>
+                    <h2>{positions[position]}</h2>
                     <section>
-                        <p>1d ago</p>
+                        <p>{relesed}</p>
                         <p>&middot;</p>
-                        <p>Full Time</p>
+                        <p>{agreements[agreement]}</p>
                         <p>&middot;</p>
-                        <p>USA only</p>
+                        <p>{locations[location]}</p>
                     </section>
                 </div>
             </section>
             <hr></hr>
             <section>
-                <Button case2>Frontend</Button>
-                <Button case2>Senior</Button>
-                <Button case2>HTML</Button>
-                <Button case2>CSS</Button>
-                <Button case2>JavaScript</Button>
+                {requirement.map(e=>e.options.map(elem=><Button case2>{requirements[e.name][elem]}</Button>))}
             </section>
         </Wrapper>
     )
