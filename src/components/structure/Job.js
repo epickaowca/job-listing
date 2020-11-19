@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button } from '../elements/button'
+import { useSelector } from 'react-redux'
 
 const Wrapper = styled.div`
+box-shadow: 0px 5px 15px rgba(0,0,0,.2);
 max-width: 1440px;
 margin: auto;
 background: white;
@@ -77,10 +79,14 @@ ${p=>p.theme.media.desktop1}{
         }
     }
 }
+
 `
 
-export default function Job({jobs, positions, agreements, locations, requirements}) {
-    const { img, featured, company, relesed, new:isNew, position, agreement, location, requirement } = jobs
+export default React.memo(({jobs, requ}) => {
+    console.log(jobs.company)
+    const state = useSelector(state => state.jobs)
+    const { positions, agreements, locations } = state
+    const { img, featured, company, relesed, new:isNew, position, agreement, location } = jobs
     return (
         <Wrapper featured={featured}>
             <section>
@@ -103,8 +109,8 @@ export default function Job({jobs, positions, agreements, locations, requirement
             </section>
             <hr></hr>
             <section>
-                {requirement.map(e=>e.options.map(elem=><Button case2>{requirements[e.name][elem]}</Button>))}
+                {requ && requ.map((elem, index)=><Button key={index} case2>{elem}</Button>)}
             </section>
         </Wrapper>
     )
-}
+})

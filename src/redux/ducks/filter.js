@@ -1,6 +1,7 @@
 const TOGGLE_EJECT = 'filter/toggle_eject'
 const ADD_FILTER = 'filter/add'
 const REMOVE_FILTER = 'filter/remove'
+const CLEAR_FILTER = 'filter/clear'
 
 
 const initState = {
@@ -25,6 +26,11 @@ const reducer=( state=initState, {type, payload} )=>{
         case REMOVE_FILTER: return{
             ...state, filters: state.filters.filter(filtr=>filtr!==payload)
         }
+
+        case CLEAR_FILTER:return{
+            ...state, filters: []
+        }
+        
         default: return state
     }
 }
@@ -32,5 +38,6 @@ const reducer=( state=initState, {type, payload} )=>{
 export const toggleEject = ()=>({type: TOGGLE_EJECT})
 export const addFilter = payload=>({type: ADD_FILTER, payload})
 export const removeFilter = payload=>({type: REMOVE_FILTER, payload})
+export const clearFilter = ()=>({type: CLEAR_FILTER})
 
 export default reducer

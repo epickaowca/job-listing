@@ -3,12 +3,24 @@ import styled from 'styled-components'
 import Filtr from '../structure/Filtr'
 import { Button } from '../elements/button'
 import { useSelector, useDispatch } from 'react-redux'
-import { addFilter } from '../../redux/ducks/filter'
+import { addFilter, toggleEject } from '../../redux/ducks/filter'
+import {ReactComponent as CloseImg} from '../../asset/icon-remove.svg'
+
 
 const Wrapper = styled.div`
+    top: 100%;
+    width: 90%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     background: white;
-    padding: 25px 15px;
+    height: 0px;
+    overflow: hidden;
+    ${p=>p.filterEject && `
+        height: auto;
+    `}
     & > div{
+        padding: 0 15px;
         margin: 50px 0;
         display: flex;
         flex-direction: column;
@@ -29,67 +41,48 @@ const Wrapper = styled.div`
         }
     }
     & > button{
+        border: 1px solid black;
+        box-shadow: none;
         left: 50%;
         transform: translateX(-50%);
         position: relative;
+        &:hover{
+            border: none;
+        }
+    }
+    & > svg{
+        cursor: pointer;
+        position: absolute;
+        right: 40px;
+        top: 40px;
+        transform: scale(2);
+        & > path{
+            fill: black;
+        }
+        &:hover{
+            & > path{
+                fill: ${p=>p.theme.color1}
+            }
+        }
     }
 `
-const filters = [
-    {
-        filtr: 'Role',
-        option:[
-            'Frontend',
-            'Backend',
-            'Fullstack',
-        ]
-    },
-    {
-        filtr: 'Level',
-        option:[
-            'Junior',
-            'Midweight',
-            'Senior',
-        ]
-    },
-    {
-        filtr: 'Languages',
-        option:[
-            'Python',
-            'Ruby',
-            'JavaScript',
-            'HTML',
-            'CSS',
-        ]
-    },
-    {
-        filtr: 'Tools',
-        option:[
-            'React',
-            'Sass',
-            'Vue',
-            'Django',
-            'RoR'
-        ]
-    },
-]
-
 export default function FiltersOption() {
-    const state = useSelector(state => state.filter)
+    const state = useSelector(state => state)
     const dispatch = useDispatch()
-    console.log(state)
     return (
-        <Wrapper>
-            {filters.map(({filtr, option}, index)=>
-            <div key={index}>
-                <p>{filtr}</p>
-                <div>
-                    {option.map((filtr, index)=>
-                        <Filtr key={index} case2 name={filtr} click={()=>dispatch(addFilter(filtr))}
-                    />)}
+        <Wrapper filterEject={state.filter.filterEject}>
+            <CloseImg onClick={()=>dispatch(toggleEject())} />
+            {Object.entries(state.jobs.requirements).map((item, index)=>
+                <div key={index}>
+                    <p>{item[0]}</p>
+                    <div>
+                        {Object.values(item[1]).map((filtr, index)=>
+                            <Filtr key={index} case2 name={filtr} click={()=>dispatch(addFilter(filtr))} />
+                        )}
+                    </div>
                 </div>
-            </div>
             )}
-            <Button>done</Button>
+            <Button case3 onClick={()=>dispatch(toggleEject())}>done</Button>
         </Wrapper>
     )
 }

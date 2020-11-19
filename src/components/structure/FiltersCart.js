@@ -1,52 +1,62 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Filtr from '../structure/Filtr'
 import styled from 'styled-components'
-import { ReactComponent as Close } from '../../asset/icon-remove.svg'
 import { removeFilter } from '../../redux/ducks/filter'
 import { useSelector, useDispatch } from 'react-redux'
+import { clearFilter } from '../../redux/ducks/filter'
+
 
 const Wrapper = styled.div`
+margin: auto;
+padding: 15px 0;
+width: 90%;
 z-index: 2;
 top: 0;
 position: sticky;
 display: flex;
-flex-direction: column;
+flex-direction: row-reverse;
+justify-content: space-between;
+align-items: center;
 background: white;
-flex-wrap: wrap;
 border-bottom: 1px solid rgba(0,0,0,.5);
+${p=>!p.filterEject && `
+border: none;
+border-radius: 8px;
+box-shadow: 0px 5px 15px rgba(0,0,0,.2);
+`}
+padding-right: 40px;
+& > div{
+    padding-left: 20px;
+    & > p{
+        font-weight: 600;
+        color: ${p=>p.theme.color1};
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
 & > section{
     display: flex;
     padding: 20px;
-    &:nth-child(1){
-        justify-content: space-between;
-        & > svg{
-            transform: scale(1.5);
-            & > path{
-                fill: rgba(0,0,0,.7);
-            }
-        }
-    }
-    &:nth-child(2){
-        max-height: 155px;
-        overflow: auto;
-        padding-top: 0;
-        flex-wrap: wrap;
-        & > div{
-            margin: 10px;
-        }
+    max-height: 155px;
+    overflow: auto;
+    flex-wrap: wrap;
+    & > div{
+        margin: 10px;
     }
 }
 `
 
 export default function Filters() {
+    const Wrapp = useRef()
     const state = useSelector(state=>state.filter)
     const dispatch = useDispatch()
     return (
-        <Wrapper>
-            <section>
-                <p>Filters</p>
-                <Close />
-            </section>
+        <Wrapper ref={Wrapp} filterEject={state.filterEject}>
+            <div>
+                <p onClick={()=>dispatch(clearFilter())}>Clear</p>
+            </div>
             <section>
                 {state.filters.map((filtr, index)=><Filtr key={index} name={filtr} click={()=>dispatch(removeFilter(filtr))} />)}
             </section>

@@ -12,6 +12,7 @@ const Wrapper = styled.div`
     background: white;
     border: 1px solid black;
     border-right: none;
+    height: 35px;
     & > div{
         border: 1px solid ${p.theme.color1};
         & > svg{
@@ -24,12 +25,19 @@ const Wrapper = styled.div`
         font-weight: 700;
     }
     & > div{
-        height: 100%;
+        cursor: pointer;
+        height: 35px;
         width: 30px;
         display: flex;
         background: ${p=>p.theme.color1};
         & > svg{
+            transition: all .3s ease; 
             margin: auto;
+        }
+        &:hover{
+            & > svg{
+                transform: rotate(${p=>p.case2 ? '225deg' : '180deg' });
+            }
         }
     }
 `
