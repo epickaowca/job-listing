@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Button } from '../elements/button'
 import { useSelector } from 'react-redux'
@@ -73,6 +73,21 @@ ${p=>p.theme.media.desktop1}{
         display: none;
     }
     & > section{
+        &:nth-child(1){
+            display: flex;
+            align-items: center;
+            & > img{
+                margin-right: 25px;
+                object-fit: contain;
+                width: auto;
+                top: unset;
+                left: unset;
+                position: relative;
+            }
+            & > div{
+                margin-top: unset;
+            }
+        }
         &:nth-child(3){
             text-align: right;
             width: 50%;
@@ -83,7 +98,6 @@ ${p=>p.theme.media.desktop1}{
 `
 
 export default React.memo(({jobs, requ}) => {
-    console.log(jobs.company)
     const state = useSelector(state => state.jobs)
     const { positions, agreements, locations } = state
     const { img, featured, company, relesed, new:isNew, position, agreement, location } = jobs
